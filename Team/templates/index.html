@@ -1,0 +1,22 @@
+<h1>team Manager</h1>
+
+{% if 'username' in session %}
+    <p>Welcome, {{ session['username'] }}! <a href="{{ url_for('logout') }}">Logout</a></p>
+    <a href="{{ url_for('add_team') }}" class="btn">Add New team</a>
+{% else %}
+    <a href="{{ url_for('login') }}" class="btn">Login</a>
+{% endif %}
+
+{% for team in teams %}
+    <div class="team">
+        <h2>{{ team.title }}</h2>
+        <p>{{ team.description }}</p>
+        {% if team.image %}
+            <img src="{{ url_for('static', filename='uploads/' + team.image) }}" width="200">
+        {% endif %}
+        {% if 'username' in session %}
+            <a href="{{ url_for('edit_team', id=team.id) }}" class="btn">Edit</a>
+            <a href="{{ url_for('delete_team', id=team.id) }}" class="btn delete">Delete</a>
+        {% endif %}
+    </div>
+{% endfor %}
